@@ -10,6 +10,7 @@ namespace app\vocpand\service;
 
 use app\vocpand\model\Job;
 
+use think\facade\Db;
 use think\facade\Request;
 class JobService
 {
@@ -29,5 +30,17 @@ class JobService
         }
         return $jobs;
 
+    }
+    /*
+     * 获取工作详情
+     * */
+    public static function jobDetail($id)
+    {
+        $job = Job::detail($id);
+        $guestbooks = Db::name('guestbook')->where('user_id',$job['user_id'])
+            ->select()->toArray();
+
+        $data = ['job'=>$job,'guestbooks' => $guestbooks];
+        return $data;
     }
 }

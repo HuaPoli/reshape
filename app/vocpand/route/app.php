@@ -18,4 +18,5 @@ Route::post('api/token/user', 'Token/getToken');
 Route::group('api',function () {
     Route::get('/home/job', 'Home/list');
     Route::get('/category/all', 'Home/categoryAll');
+    Route::get('/job/detail/:id', 'Job/detail');
 });

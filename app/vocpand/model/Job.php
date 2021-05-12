@@ -18,6 +18,10 @@ class Job extends BaseModel
         return $this->hasOne(Category::class,'id','category_id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'job_id','id');
+    }
 
     public function jobList($data)
     {
@@ -42,6 +46,16 @@ class Job extends BaseModel
 
     }
 
+    public static function detail($id)
+    {
+
+        $job = Job::has('comments')->find($id);
+
+        $comments = $job->comments->toArray();
+        $job = $job->toArray();
+        $job['comments'] = $comments;
+        return $job;
+    }
 
 
 }
