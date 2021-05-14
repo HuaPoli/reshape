@@ -33,4 +33,22 @@ class JobService
         $data = ['job'=>$job,'guestbooks' => $guestbooks];
         return $data;
     }
+
+    /*
+     * 点赞
+     * */
+    public static function praise($id, $praise)
+    {
+        $job = Db::name('job')->find($id);
+        $count = $job['praise'];
+        if($praise == 'true'){
+            $count += 1;
+            Db::name('job')->where('id',$id)->update(['praise'=>$count]);
+            return true;
+        }
+        $count = $count - 1;
+        $count < 0 ? 0 : $count;
+        Db::name('job')->where('id',$id)->update(['praise'=>$count]);
+        return false;
+    }
 }

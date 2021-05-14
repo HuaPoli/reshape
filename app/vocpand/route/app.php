@@ -20,4 +20,5 @@ Route::group('api',function () {
     Route::get('/category/all', 'Home/categoryAll');
     Route::get('/job/detail/:id', 'Job/detail');
     Route::get('/opus/list', 'Opus/list');
+    Route::get('/job/praise/:id/:praise', 'Job/praise');
 });
