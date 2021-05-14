@@ -17,18 +17,8 @@ class JobService
     public static function jobList($data)
     {
         $list = (new Job())->jobList($data);
-        if($list == null)
-            return $list;
-        $url = 'https://'.Request::host().'/';
-        $jobs = [];
-        foreach ($list as $value) {
-            $user = $value['user'];
-            $user['uimg'] = $url . $user['uimg'];
-            $value['user'] = $user;
-            array_push($jobs, $value);
 
-        }
-        return $jobs;
+        return $list;
 
     }
     /*

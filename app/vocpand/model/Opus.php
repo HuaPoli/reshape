@@ -2,12 +2,10 @@
 declare (strict_types = 1);
 
 namespace app\vocpand\model;
-use think\facade\Db;
-
 /**
  * @mixin \think\Model
  */
-class Job extends BaseModel
+class Opus extends BaseModel
 {
     public function user()
     {
@@ -20,22 +18,18 @@ class Job extends BaseModel
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'job_id','id');
+        return $this->hasMany(Comment::class,'opus_id','id');
     }
 
-    public function jobList($data)
+    public function opusList($data)
     {
-        $selector = Job::with(['user','category'])
-            ->where('type',$data['type']);
-        if(isset($data['keywords']) && $data['keywords'] != '' )
-            $selector->where('title', 'like', '%'.$data['keywords'].'%');
+        $selector = Opus::with(['user', 'category','comments']);
         if(isset($data['city']) && $data['city'] != '' )
             $selector->where('city', $data['city']);
         if(isset($data['country']) && $data['country'] != '' )
             $selector->where('country', $data['country']);
         if(isset($data['category_id']) && is_numeric($data['category_id']))
             $selector->where('category_id', $data['category_id']);
-
         $total = $selector->count();
         $tpage = ceil(($total / $data['pageCount']));
         if(  $tpage < $data['page'] )
@@ -46,13 +40,7 @@ class Job extends BaseModel
 
     }
 
-    public static function detail($id)
-    {
 
-        $job = Job::with('comments')->find($id);
-        $job = $job->toArray();
-        return $job;
-    }
 
 
 }

@@ -148,7 +148,7 @@ class Product extends BaseContorller
             Db::name('search')->save($search);
         }
         $keyword.= '%';
-        $list = Db::name('product')->where('title', 'like', $keyword)
+        $list = Db::name('product')->where('title', 'like', '%'.$keyword)
             ->whereOr('subtitle', 'like', $keyword)
             ->whereOr('tags','like',$keyword)
             ->whereOr('author','like',$keyword)
