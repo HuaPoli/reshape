@@ -20,12 +20,13 @@ class Job extends BaseModel
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'job_id','id');
+        return $this->hasMany(Comment::class,'job_id','id')->with('answers');
     }
+
 
     public function jobList($data)
     {
-        $selector = Job::with(['user','category'])
+        $selector = Job::with(['user','category','comments'])
             ->where('type',$data['type']);
         if(isset($data['keywords']) && $data['keywords'] != '' )
             $selector->where('title', 'like', '%'.$data['keywords'].'%');

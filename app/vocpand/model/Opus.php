@@ -18,7 +18,7 @@ class Opus extends BaseModel
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'opus_id','id');
+        return $this->hasMany(Comment::class,'opus_id','id')->with('answers');
     }
 
     public function opusList($data)

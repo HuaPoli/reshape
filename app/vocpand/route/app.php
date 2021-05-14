@@ -21,4 +21,12 @@ Route::group('api',function () {
     Route::get('/job/detail/:id', 'Job/detail');
     Route::get('/opus/list', 'Opus/list');
     Route::get('/job/praise/:id/:praise', 'Job/praise');
+
+
+    Route::post('/comment/job', 'Comment/job');
+    Route::post('/comment/opus', 'Comment/opus');
+    Route::post('/comment/answer', 'Comment/answer');
+
+
+    Route::get('/opus/praise/:id/:praise', 'Opus/praise');
 });

@@ -8,30 +8,29 @@
 
 namespace app\vocpand\service;
 
+use app\vocpand\model\Job;
 
-use app\vocpand\model\Opus;
+use think\facade\Db;
 use think\facade\Request;
 class OpusService
 {
-    public static function opusList($data)
+
+
+    /*
+     * 点赞
+     * */
+    public static function praise($id, $praise)
     {
-        $list = (new Opus())->opusList($data);
-        if($list == null)
-            return $list;
-        $url = 'https://'.Request::host().'/';
-        $opuses = [];
-        foreach ($list as $value) {
-            $img_views = explode('/#/',$value['img_view']) ;
-            $arr = [];
-            foreach ($img_views as $img_view) {
-                array_push($arr, ($url . $img_view));
-            }
-            $value['img_view'] = $arr;
-            array_push($opuses, $value);
-
+        $job = Db::name('opus')->find($id);
+        $count = $job['praise'];
+        if($praise == 'true'){
+            $count += 1;
+            Db::name('opus')->where('id',$id)->update(['praise'=>$count]);
+            return true;
         }
-        return $opuses;
-
+        $count = $count - 1;
+        $count < 0 ? 0 : $count;
+        Db::name('opus')->where('id',$id)->update(['praise'=>$count]);
+        return false;
     }
-
 }
