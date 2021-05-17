@@ -17,7 +17,7 @@ class Home extends CommonController
     public function list(Request $request)
     {
         $types = ['A','B','C'];
-        $data = $request->param();
+        $data = $request->get();
         if(!isset($data['page']) || !is_numeric($data['page']) || $data['page'] < 1 )
             return $this->resultJson(2, 'page参数不合法');
         if(!isset($data['type']) || !in_array($data['type'],$types))

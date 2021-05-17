@@ -27,6 +27,9 @@ Route::group('api',function () {
     Route::post('/comment/opus', 'Comment/opus');
     Route::post('/comment/answer', 'Comment/answer');
 
-
     Route::get('/opus/praise/:id/:praise', 'Opus/praise');
+
+    Route::get('/user/info', 'User/info');
+    Route::post('/user/finish', 'User/finish');
+
 });
