@@ -2,10 +2,15 @@
 declare (strict_types = 1);
 
 namespace app\vocpand\controller;
+use app\exception\HttpExceptions;
 use app\vocpand\model\Category;
 use app\vocpand\service\OpusService;
+use app\vocpand\validate\OpusValidate;
 use think\facade\Config;
+use think\facade\Db;
+use think\facade\Filesystem;
 use think\Request;
+use think\exception\ValidateException;
 class Opus extends CommonController
 {
     /**
@@ -51,4 +56,40 @@ class Opus extends CommonController
             return $this->resultJson(0, '点赞成功');
         return $this->resultJson(0, '已取消点赞');
     }
+
+    /***
+     * 发布作品
+     *
+     */
+    public function publish(Request $request)
+    {
+        $data = $request->post();
+        (new OpusValidate())->checkParam($data);
+        $files = $request->file();
+        if(!empty($files)) {
+            if($data['file_type'] == 'img'){
+                $files = $request->file('images');
+                try {
+                    validate(['image'=>'filesize:20280|fileExt:jpg,png,gif|image:png,gif,jpg'])
+                        ->check($files);
+                    $img = '';
+                    foreach($files as $file) {
+                        $savename = Filesystem::disk('public')->putFile( 'opus', $file);
+                        $img.= 'storage/'.str_ireplace('\\','/',$savename).'#';
+                    }
+                    $data['img_view'] = $img;
+                } catch (ValidateException $e) {
+                    throw new HttpExceptions(400, $e->getMessage(), 199);
+                }
+            }else {
+                $file = $request->file('images');
+                $savename = Filesystem::disk('public')->putFile( 'opus', $file);
+                $data['img_view'] = 'storage/'.str_ireplace('\\','/',$savename);
+            }
+        }
+        Db::name('opus')->strict(false)->insert($data);
+        return $this->resultJson(0, '发布成功');
+    }
+
+
 }

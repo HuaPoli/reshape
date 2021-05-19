@@ -23,8 +23,6 @@ class CommonController extends BaseController
             throw  new HttpExceptions(400, 'token已失效', 1000);
         Cache::set($token, $value, Config::get('setting.token_expire_in'));
         $this->user = json_decode($value);
-
-
     }
 
 

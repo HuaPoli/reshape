@@ -15,6 +15,7 @@ Route::miss(function () {
 
 Route::post('api/token/user', 'Token/getToken');
 
+
 Route::group('api',function () {
     Route::get('/home/job', 'Home/list');
     Route::get('/category/all', 'Home/categoryAll');
@@ -28,8 +29,21 @@ Route::group('api',function () {
     Route::post('/comment/answer', 'Comment/answer');
 
     Route::get('/opus/praise/:id/:praise', 'Opus/praise');
+    Route::post('/opus/publish', 'Opus/publish');
+
+
 
     Route::get('/user/info', 'User/info');
     Route::post('/user/finish', 'User/finish');
 
+
+
 });
+
+Route::post('api/chat/get_head', 'Chat/get_head');
+Route::post('api/chat/load', 'Chat/load');
+Route::post('api/chat/save_message', 'Chat/save_message');
+Route::post('api/chat/changeNoRead', 'Chat/changeNoRead');
+Route::post('api/chat/uploadimg', 'Chat/uploadimg');
+Route::post('api/chat/get_name', 'Chat/get_name');
+Route::post('api/chat/get_list', 'Chat/get_list');
